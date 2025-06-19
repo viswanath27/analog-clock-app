@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Clock</title>
+    <style>
+        body { font-family: Arial; margin: 50px; text-align: center; }
+        .clock { font-size: 48px; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Test Clock Working</h1>
+    <div id="clock" class="clock"></div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# Step 1: Just the Deployment
+# This creates pods running your analog clock app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analog-clock-deployment
+  namespace: default
+  labels:
+    app: analog-clock
+spec:
+  replicas: 1  # Start with just 1 pod
+  selector:
+    matchLabels:
+      app: analog-clock  # This is how we identify our pods
+  template:
+    metadata:
+      labels:
+        app: analog-clock  # Pods get this label
+    spec:
+      imagePullSecrets:
+      - name: acr-admin-secret  # Using your existing ACR secret
+      - name: acr-secret        # Adding second secret like your working deployments
+      containers:
+      - name: analog-clock-container
+        image: advaitclusterregistry.azurecr.io/analog-clock:latest
+        ports:
+        - containerPort: 80  # The port your nginx serves on inside the container
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "64Mi"   # Minimum memory needed
+            cpu: "50m"       # Minimum CPU needed (0.05 cores)
+          limits:
+            memory: "128Mi"  # Maximum memory allowed
+            cpu: "100m"      # Maximum CPU allowed (0.1 cores)

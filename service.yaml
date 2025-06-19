@@ -1,0 +1,17 @@
+# Step 2: Service - Expose the pods internally
+# This creates an internal load balancer for your analog clock pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: analog-clock-service
+  namespace: default
+  labels:
+    app: analog-clock
+spec:
+  type: ClusterIP  # Internal access only (no external IP yet)
+  selector:
+    app: analog-clock  # This connects to pods with label app=analog-clock
+  ports:
+    - protocol: TCP
+      port: 80        # Port that other services use to access this service
+      targetPort: 80  # Port on the pod (nginx serves on port 80)
